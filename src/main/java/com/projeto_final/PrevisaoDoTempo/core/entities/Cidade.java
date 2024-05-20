@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ public class Cidade {
     private Long id;
     private String nome;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dados_id")
+    @JoinColumn(name = "cidade")
     private Map<LocalDate,DadoMeteorologico> dadosMeteorologicos= new HashMap<>();
+
 }
