@@ -42,7 +42,7 @@ public class CidadeService {
     }
 
     public CidadeResponseDto retornaDadosMeteorologicoPorCidade(String nomeDaCidade){
-        Cidade  cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrado"));
+        Cidade  cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada"));
         CidadeResponseDto cidadeResponseDto = new CidadeResponseDto();
         BeanUtils.copyProperties(cidadePesquisada,cidadeResponseDto);
         return cidadeResponseDto;

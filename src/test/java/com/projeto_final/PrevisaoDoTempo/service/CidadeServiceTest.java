@@ -12,6 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
 import static org.mockito.Mockito.verify;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -39,12 +42,9 @@ class CidadeServiceTest {
         String cidade = "Valinhos";
         CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
         Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
-//        cidadeRepository.save(novaCidade);
-        when(cidadeRepository.save(novaCidade)).thenReturn(novaCidade);
-        CidadeResponseDto resposta;
-        assertDoesNotThrow(()->cidadeService.retornaDadosMeteorologicoPorCidade(cidade));
-        verify(cidadeRepository).save(novaCidade);
-//        resposta= cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
-//        assertEquals(resposta.getNome(), cidade);
+        when(cidadeRepository.findByNome(cidade)).thenReturn(Optional.of(novaCidade));
+        CidadeResponseDto resposta = cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
+        verify(cidadeRepository).findByNome(cidade);
+        assertEquals(resposta.getNome(), cidade);
     }
 }
