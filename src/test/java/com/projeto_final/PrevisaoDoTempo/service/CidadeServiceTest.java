@@ -1,6 +1,7 @@
 package com.projeto_final.PrevisaoDoTempo.service;
 
 import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeRequestDdo;
+import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
 import com.projeto_final.PrevisaoDoTempo.fixture.CidadeFixture;
 import com.projeto_final.PrevisaoDoTempo.fixture.CidadeRequestDtoFixture;
@@ -25,7 +26,7 @@ class CidadeServiceTest {
 
     @Test
     void deveCadastrarNovaCidade(){
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto();
+        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto("Campinas");
         Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
         when(cidadeRepository.save(novaCidade)).thenReturn(novaCidade);
         Cidade resposta = cidadeService.cadastrarCidade(dto);
@@ -33,4 +34,17 @@ class CidadeServiceTest {
         assertEquals(novaCidade, resposta);
     }
 
+    @Test
+    void deveBuscarCidadePorNome(){
+        String cidade = "Valinhos";
+        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
+        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+//        cidadeRepository.save(novaCidade);
+        when(cidadeRepository.save(novaCidade)).thenReturn(novaCidade);
+        CidadeResponseDto resposta;
+        assertDoesNotThrow(()->cidadeService.retornaDadosMeteorologicoPorCidade(cidade));
+        verify(cidadeRepository).save(novaCidade);
+//        resposta= cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
+//        assertEquals(resposta.getNome(), cidade);
+    }
 }

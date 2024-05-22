@@ -1,0 +1,7 @@
+ Pesquisa de previsão metereolólica a partir do nome da cidade
+ Apresentação da previsão metereológica do dia atual
+ Apresentação da previsão metereológica dos próximos 07 dias
+ Apresentação de uma lista de previsão metereológica cadastradas
+ Cadastro de previsão metereológica
+ Edição de previsão metereológica
+ Exclusão de previsão metereológica

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public class CidadeRequestDtoFixture {
 
-    public static CidadeRequestDdo gerarCidadeRequestDto(){
+    public static CidadeRequestDdo gerarCidadeRequestDto(String nomeDaCidade){
         DadoMeteorologico dadoMeteorologico = new DadoMeteorologico(
                 null,
                 LocalDate.now(),
@@ -21,7 +21,7 @@ public class CidadeRequestDtoFixture {
                 );
 
 
-        return new CidadeRequestDdo("Campinas", dadoMeteorologico);
+        return new CidadeRequestDdo(nomeDaCidade, dadoMeteorologico);
 
     }
 }
