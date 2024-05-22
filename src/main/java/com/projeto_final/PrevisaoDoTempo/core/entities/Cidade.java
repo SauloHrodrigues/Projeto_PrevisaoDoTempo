@@ -3,13 +3,8 @@ package com.projeto_final.PrevisaoDoTempo.core.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Entity
@@ -21,6 +16,6 @@ public class Cidade {
     private String nome;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cidade")
-    private Map<LocalDate,DadoMeteorologico> dadosMeteorologicos= new HashMap<>();
+    private List<DadoMeteorologico> dadosMeteorologicos= new ArrayList<>();
 
 }
