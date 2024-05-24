@@ -1,14 +1,15 @@
 package com.projeto_final.PrevisaoDoTempo.core.dto;
 
 import com.projeto_final.PrevisaoDoTempo.core.entities.DadoMeteorologico;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CidadeRequestDdo {
+    @Getter
+    @Setter
     private String nome;
-    private DadoMeteorologico dadosMeteorologicos;
+    @Getter
+    @Setter
+    private DadoMeteorologicoRequestDto dadosMeteorologicos;
 }

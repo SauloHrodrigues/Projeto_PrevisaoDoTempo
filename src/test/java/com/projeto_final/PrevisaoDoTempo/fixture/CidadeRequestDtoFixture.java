@@ -9,19 +9,19 @@ import java.time.LocalDate;
 
 public class CidadeRequestDtoFixture {
 
-    public static CidadeRequestDdo gerarCidadeRequestDto(String nomeDaCidade){
-        DadoMeteorologico dadoMeteorologico = new DadoMeteorologico(
-                null,
-                LocalDate.now(),
-                20,
-                10,
-                Turno.NOITE,
-                Clima.NUBLADO,
-                50
-                );
-
-
-        return new CidadeRequestDdo(nomeDaCidade, dadoMeteorologico);
-
-    }
+//    public static CidadeRequestDdo gerarCidadeRequestDto(String nomeDaCidade){
+//        DadoMeteorologico dadoMeteorologico = new DadoMeteorologico(
+//                null,
+//                LocalDate.now(),
+//                20,
+//                10,
+//                Turno.NOITE,
+//                Clima.NUBLADO,
+//                50
+//                );
+//
+//
+//        return new CidadeRequestDdo(nomeDaCidade, dadoMeteorologico);
+//
+//    }
 }
