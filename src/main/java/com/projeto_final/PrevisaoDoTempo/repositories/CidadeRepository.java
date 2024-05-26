@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
-//    boolean existsByName(String nome);
+    boolean existsByNome(String nome);
     Optional<Cidade> findByNome(String nome);
+
 }

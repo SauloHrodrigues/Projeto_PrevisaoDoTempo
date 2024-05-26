@@ -22,7 +22,6 @@ public class Cidade {
     @Getter
     @Setter
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cidade")
     private List<DadoMeteorologico> dadosMeteorologicos= new ArrayList<>();
 
 }
