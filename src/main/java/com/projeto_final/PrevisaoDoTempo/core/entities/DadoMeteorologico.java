@@ -1,6 +1,7 @@
 package com.projeto_final.PrevisaoDoTempo.core.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Clima;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Turno;
 import jakarta.persistence.*;
@@ -17,7 +18,6 @@ public class DadoMeteorologico {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_dados")
     private Long id;
     @Getter @Setter
     private LocalDate data;
@@ -33,4 +33,9 @@ public class DadoMeteorologico {
     private Clima clima;
     @Getter @Setter
     private Integer precipitacao;
+    @JsonIgnore
+    @Getter @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cidade_id")
+    private Cidade cidade;
 }
