@@ -21,7 +21,7 @@ public class Cidade {
     private String nome;
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DadoMeteorologico> dadosMeteorologicos= new ArrayList<>();
 
 }

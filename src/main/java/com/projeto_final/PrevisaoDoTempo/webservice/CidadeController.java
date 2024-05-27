@@ -31,14 +31,24 @@ public class CidadeController {
         return cidadeService.listar();
     }
 
+    @GetMapping("/{cidade}/proximos_sete_dias")
+    CidadeResponseDto  ultimos07Dias(@PathVariable("cidade") String cidade){
+        return cidadeService.retornarDadosProximosSeteDias(cidade);
+    }
+
+    @GetMapping("/{cidade}/hoje")
+    CidadeResponseDto  dadosDeHoje(@PathVariable("cidade") String cidade){
+        return cidadeService.retornarDadosDeHoje(cidade);
+    }
+
+
     @GetMapping("/{cidade}")
     public CidadeResponseDto pesquisarCidade(@PathVariable("cidade") String nomeCidade){
         return cidadeService.retornaDadosMeteorologicoPorCidade(nomeCidade);
     }
 
-    @PostMapping("/novo_dado/{cidade}")
-    public ResponseEntity<CidadeResponseDto> cadastrarDadosMeteorologicos(@RequestBody DadoMeteorologicoRequestDto dados, @PathVariable("cidade")  String cidade ){
-        CidadeResponseDto response = cidadeService.cadastrarDadosMeteorologicos(dados,cidade);
-        return  ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @DeleteMapping("/{cidade}")
+    public ResponseEntity deletarCidade(@PathVariable("cidade") String nomeCidade){
+        return cidadeService.deletarCidade(nomeCidade);
     }
 }
