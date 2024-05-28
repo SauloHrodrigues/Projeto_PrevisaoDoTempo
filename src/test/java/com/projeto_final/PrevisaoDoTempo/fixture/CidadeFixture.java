@@ -10,19 +10,10 @@ import java.time.LocalDate;
 
 public class CidadeFixture {
     public static Cidade gerarCidadePorCidadeRequestDto(CidadeRequestDdo dto){
-        DadoMeteorologico dadoMeteorologico = new DadoMeteorologico(
-                null,
-                dto.getDadosMeteorologicos().getData(),
-                dto.getDadosMeteorologicos().getTemperaturaMinima(),
-                dto.getDadosMeteorologicos().getTemperaturaMaxima(),
-                dto.getDadosMeteorologicos().getTurno(),
-                dto.getDadosMeteorologicos().getClima(),
-                dto.getDadosMeteorologicos().getPrecipitacao()
-        );
+        DadoMeteorologico dadoMeteorologico = DadoMeteorologicoFixture.gerarDadoMeteorologico();
         Cidade cidade = new Cidade();
-
         cidade.setNome(dto.getNome());
-        cidade.getDadosMeteorologicos().put(dadoMeteorologico.getData(), dadoMeteorologico);
+        cidade.getDadosMeteorologicos().add(dadoMeteorologico);
         return cidade;
     }
 }
