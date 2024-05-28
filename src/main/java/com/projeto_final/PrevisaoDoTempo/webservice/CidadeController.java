@@ -22,8 +22,9 @@ public class CidadeController {
     private final CidadeService cidadeService;
 
     @PostMapping("/")
-    public void cadastraCidade(@RequestBody CidadeRequestDdo requisicao ){
-        cidadeService.cadastrarCidade(requisicao);
+    public ResponseEntity<CidadeResponseDto> cadastraCidade(@RequestBody CidadeRequestDdo requisicao ){
+        CidadeResponseDto responseDto = cidadeService.cadastrarCidade(requisicao);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @GetMapping("/")

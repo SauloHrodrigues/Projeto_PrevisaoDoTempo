@@ -12,11 +12,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,18 +28,24 @@ public class CidadeService {
 
     @Autowired
     private final DadoMeteorologicoRepository dadoRepository;
+    public CidadeResponseDto cadastrarCidade(CidadeRequestDdo cidadeRequestDdo) {
+        cidadeRepository.findByNome(cidadeRequestDdo.getNome()).ifPresent((cidade) -> {
+            throw new IllegalArgumentException("Cidade já cadastrada.");
+        });
 
-    public void cadastrarCidade(CidadeRequestDdo cidadeRequestDdo) {
-        Cidade novaCidade = MapperCidade.dtoToEntity(cidadeRequestDdo);
-        novaCidade.setNome(cidadeRequestDdo.getNome());
-        cidadeRepository.save(novaCidade);
-        if (cidadeRequestDdo.getDadosMeteorologicos() != null) {
-            DadoMeteorologico novoDado = criarNovoDado(cidadeRequestDdo.getDadosMeteorologicos());
-           novoDado.setCidade(novaCidade);
-            dadoRepository.save(novoDado);
-            novaCidade.getDadosMeteorologicos().add(novoDado);
-        }
+            Cidade novaCidade = MapperCidade.dtoToEntity(cidadeRequestDdo);
+            novaCidade.setNome(cidadeRequestDdo.getNome());
+
+            if (cidadeRequestDdo.getDadosMeteorologicos() != null) {
+                DadoMeteorologico novoDado = criarNovoDado(cidadeRequestDdo.getDadosMeteorologicos());
+                novoDado.setCidade(novaCidade);
+//            dadoRepository.save(novoDado);
+                novaCidade.getDadosMeteorologicos().add(novoDado);
+            }
+            cidadeRepository.save(novaCidade);
+            return MapperCidade.entityToResponseDto(novaCidade);
     }
+
 
     public List<Cidade> listar() {
         List<Cidade> response = cidadeRepository.findAll();
@@ -70,7 +78,7 @@ public class CidadeService {
     }
 
     public ResponseEntity deletarCidade(String nomeDaCidade) {
-        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada"));
+        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new IllegalArgumentException("Cidade não encontrada"));
         cidadeRepository.deleteById(cidadePesquisada.getId());
         return ResponseEntity.ok().build();
     }

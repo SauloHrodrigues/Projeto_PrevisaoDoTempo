@@ -16,4 +16,9 @@ public class CidadeFixture {
         cidade.getDadosMeteorologicos().add(dadoMeteorologico);
         return cidade;
     }
+    public static Cidade gerarCidadePorCidadeRequestDtoSemDadosMeteorologicos(CidadeRequestDdo dto){
+        Cidade cidade = new Cidade();
+        cidade.setNome(dto.getNome());
+        return cidade;
+    }
 }

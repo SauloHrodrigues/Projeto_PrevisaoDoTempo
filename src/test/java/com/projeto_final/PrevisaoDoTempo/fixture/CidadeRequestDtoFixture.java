@@ -12,6 +12,13 @@ public class CidadeRequestDtoFixture {
         DadoMeteorologico dadoMeteorologico = DadoMeteorologicoFixture.gerarDadoMeteorologico();
         DadoMeteorologicoResponseDto reponse = MapperDadosMetearologicos.entityToResponseDto(dadoMeteorologico);
         cidadeDto.setNome(nomeDaCidade);
+        return cidadeDto;
+    }
+    public static CidadeRequestDdo  gerarCidadeRequestDtoComDadosMeteorologico(String nomeDaCidade){
+        CidadeRequestDdo cidadeDto = new CidadeRequestDdo();
+        DadoMeteorologico dadoMeteorologico = DadoMeteorologicoFixture.gerarDadoMeteorologico();
+        DadoMeteorologicoResponseDto reponse = MapperDadosMetearologicos.entityToResponseDto(dadoMeteorologico);
+        cidadeDto.setNome(nomeDaCidade);
         cidadeDto.setDadosMeteorologicos(reponse);
         return cidadeDto;
     }
