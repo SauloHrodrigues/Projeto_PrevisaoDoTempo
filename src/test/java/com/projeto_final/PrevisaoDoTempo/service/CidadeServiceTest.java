@@ -61,7 +61,13 @@ class CidadeServiceTest {
 
     @Test
     void deveCadastrarNovoDadoMeteorologico(){
-        String cidade = "Campinas";
+        String cidade = "Valinhos";
+        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
+        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        when(cidadeRepository.findByNome(cidade)).thenReturn(Optional.of(novaCidade));
+        CidadeResponseDto resposta = cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
+        verify(cidadeRepository).findByNome(cidade);
+        assertEquals(resposta.getNome(), cidade);
 
     }
 }
