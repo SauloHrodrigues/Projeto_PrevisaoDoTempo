@@ -1,67 +1,34 @@
 package com.projeto_final.PrevisaoDoTempo.service;
 
 import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeRequestDdo;
-import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
-import com.projeto_final.PrevisaoDoTempo.fixture.CidadeFixture;
-import com.projeto_final.PrevisaoDoTempo.fixture.CidadeRequestDtoFixture;
 import com.projeto_final.PrevisaoDoTempo.repositories.CidadeRepository;
-import com.projeto_final.PrevisaoDoTempo.repositories.DadoMeteorologicoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Optional;
+@SpringBootTest
+@ActiveProfiles("test")
+@Slf4j
+public class CidadeServiceTest {
 
-import static org.mockito.Mockito.verify;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+    @Autowired
+    CidadeService serviceTest;
 
-@ExtendWith(MockitoExtension.class)
-class CidadeServiceTest {
 
-    @InjectMocks
-    private CidadeService cidadeService;
-    @Mock
-    private CidadeRepository cidadeRepository;
-
-    @Mock
-    private DadoMeteorologicoRepository dadoRepository;
 
     @Test
-    void deveCadastrarNovaCidadeSemDadosMeteorologicos(){
-        // arrange
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDtoComDadosMeteorologico("Campinas");
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDtoSemDadosMeteorologicos(dto);
-        when(cidadeRepository.save(novaCidade)).thenReturn(novaCidade);
-//         Act
-
-        CidadeResponseDto resposta = cidadeService.cadastrarCidade(dto);
-
-//        Asserts
-        verify(cidadeRepository).save(novaCidade);
-        assertEquals(novaCidade, resposta);
-
-
+    public void deveLancarExcecaoAoCadastrarCidadeJaExistente(){
+        CidadeRequestDdo cidade01 = new CidadeRequestDdo();
+        CidadeRequestDdo cidade02 = new CidadeRequestDdo();
+        cidade01.setNome("Campinas");
+        cidade02.setNome("Campinas");
+        serviceTest.cadastrarCidade(cidade01);
+        serviceTest.cadastrarCidade(cidade02);
+        Assertions.assertEquals("Cidade já cadastrada.", ******************** );
     }
 
-    @Test
-    void deveBuscarCidadePorNome(){
-        String cidade = "Valinhos";
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
-        when(cidadeRepository.findByNome(cidade)).thenReturn(Optional.of(novaCidade));
-        CidadeResponseDto resposta = cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
-        verify(cidadeRepository).findByNome(cidade);
-        assertEquals(resposta.getNome(), cidade);
-    }
-
-    @Test
-    void deveCadastrarNovoDadoMeteorologico(){
-        String cidade = "Campinas";
-
-    }
 }

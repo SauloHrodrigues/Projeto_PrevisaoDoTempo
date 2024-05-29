@@ -29,6 +29,10 @@ public class CidadeService {
     @Autowired
     private final DadoMeteorologicoRepository dadoRepository;
     public CidadeResponseDto cadastrarCidade(CidadeRequestDdo cidadeRequestDdo) {
+        if(cidadeRequestDdo.getNome()==null){
+            throw  new IllegalArgumentException("Falta o nome da cidade");
+        }
+
         cidadeRepository.findByNome(cidadeRequestDdo.getNome()).ifPresent((cidade) -> {
             throw new IllegalArgumentException("Cidade já cadastrada.");
         });
