@@ -23,16 +23,12 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class CidadeService {
-    @Autowired
+
     private final CidadeRepository cidadeRepository;
 
-    @Autowired
     private final DadoMeteorologicoRepository dadoRepository;
-    public CidadeResponseDto cadastrarCidade(CidadeRequestDdo cidadeRequestDdo) {
-        cidadeRepository.findByNome(cidadeRequestDdo.getNome()).ifPresent((cidade) -> {
-            throw new IllegalArgumentException("Cidade já cadastrada.");
-        });
 
+    public CidadeResponseDto cadastrarCidade(CidadeRequestDdo cidadeRequestDdo) {
             Cidade novaCidade = MapperCidade.dtoToEntity(cidadeRequestDdo);
             novaCidade.setNome(cidadeRequestDdo.getNome());
 
@@ -42,7 +38,12 @@ public class CidadeService {
 //            dadoRepository.save(novoDado);
                 novaCidade.getDadosMeteorologicos().add(novoDado);
             }
-            cidadeRepository.save(novaCidade);
+           try {
+               cidadeRepository.save(novaCidade);
+           }catch (Exception e){
+               throw new IllegalArgumentException("Cidade já cadastrada.");
+           }
+
             return MapperCidade.entityToResponseDto(novaCidade);
     }
 
