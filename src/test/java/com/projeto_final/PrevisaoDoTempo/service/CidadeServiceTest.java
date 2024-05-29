@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,7 +67,7 @@ class CidadeServiceTest {
     }
     @Test
     @DisplayName("Deve lançar excessão de cidade já Existente")
-    public void deveLncarExceptionDeCidadeJaExistente() {
+    public void deveLancarExceptionDeCidadeJaExistente() {
         // arrange
         String cidade = "Valinhos";
         CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
@@ -76,5 +78,18 @@ class CidadeServiceTest {
         });
         assertEquals("Cidade já cadastrada.",illegalArgumentException.getMessage());
     }
-
+    @Test
+    @DisplayName("Deve retornar uma lista de cidades")
+    public void deveRetornarUmaListaDeCidades() {
+        // arrange
+        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto("Campinas");
+        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        List<Cidade> cidadeList = new ArrayList<>();
+        cidadeList.add(novaCidade);
+        cidadeList.add(novaCidade);
+        when(cidadeRepository.findAll()).thenReturn(cidadeList);
+       List<Cidade> resposta = cidadeService.listar();
+        assertEquals(resposta.get(0),novaCidade);
+        assertTrue(resposta.size() == 2);
+    }
 }
