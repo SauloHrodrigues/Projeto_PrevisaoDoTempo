@@ -61,7 +61,7 @@ public class CidadeService {
         LocalDate dataFutura = LocalDate.now().plusDays(7);
 
         for (DadoMeteorologico dado : todosDados) {
-            if (dado.getData().isAfter(data) && dado.getData().isBefore(dataFutura)) {
+            if (dado.getData().isAfter(data) && dado.getData().isBefore(dataFutura.plusDays(1))) {
                 dadosSelecionados.add(dado);
             }
         }
@@ -70,7 +70,6 @@ public class CidadeService {
         response.setNome(cidadeBuscada.getNome());
         response.setDadosMeteorologicos(dadosSelecionados);
         return response;
-
     }
 
     public CidadeResponseDto retornaDadosMeteorologicoPorCidade(String nomeDaCidade) {
