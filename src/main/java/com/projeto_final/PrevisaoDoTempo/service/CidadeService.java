@@ -54,7 +54,8 @@ public class CidadeService {
     }
 
     public CidadeResponseDto retornarDadosProximosSeteDias(String nomeDaCidade) {
-        CidadeResponseDto cidadeBuscada = retornaDadosMeteorologicoPorCidade(nomeDaCidade);
+//        CidadeResponseDto cidadeBuscada = retornaDadosMeteorologicoPorCidade(nomeDaCidade);
+        Cidade cidadeBuscada = pesquisarCidade(nomeDaCidade);
         List<DadoMeteorologico> todosDados = cidadeBuscada.getDadosMeteorologicos();
         List<DadoMeteorologico> dadosSelecionados = new ArrayList<>();
         LocalDate data = LocalDate.now();
@@ -73,12 +74,14 @@ public class CidadeService {
     }
 
     public CidadeResponseDto retornaDadosMeteorologicoPorCidade(String nomeDaCidade) {
-        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada"));
+//        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada"));
+        Cidade cidadePesquisada = pesquisarCidade(nomeDaCidade);
         return MapperCidade.entityToResponseDto(cidadePesquisada);
     }
 
     public ResponseEntity deletarCidade(String nomeDaCidade) {
-        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new IllegalArgumentException("Cidade não encontrada"));
+//        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new IllegalArgumentException("Cidade não encontrada"));
+        Cidade cidadePesquisada = pesquisarCidade(nomeDaCidade);
         cidadeRepository.deleteById(cidadePesquisada.getId());
         return ResponseEntity.ok().build();
     }
@@ -101,6 +104,10 @@ public class CidadeService {
     }
 
     // remover da lista preimeiro
+
+    private Cidade pesquisarCidade (String nomeDaCidade){
+        return cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada"));
+    }
 
     private DadoMeteorologico criarNovoDado(DadoMeteorologicoRequestDto dados) {
         DadoMeteorologico novoDado = new DadoMeteorologico();

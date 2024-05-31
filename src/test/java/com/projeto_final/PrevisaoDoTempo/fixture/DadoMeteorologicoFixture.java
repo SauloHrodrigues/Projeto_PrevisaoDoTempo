@@ -22,41 +22,44 @@ public class DadoMeteorologicoFixture {
         return dados;
     }
 
-    public static DadoMeteorologico gerarDadoMeteorologico() {
-        DadoMeteorologico dados = new DadoMeteorologico();
-        dados.setData(hoje);
-        dados.setTemperaturaMinima(20);
-        dados.setTemperaturaMaxima(35);
-        dados.setTurno(Turno.NOITE);
-        dados.setClima(Clima.ENSOLARADO);
-        dados.setPrecipitacao(49);
-        return dados;
-    }
-
     public static DadoMeteorologico gerarDadoMeteorologico(LocalDate data) {
+        DadoMeteorologicoResponseDto response = gerarDadoMeteorologicoResponseDto();
         DadoMeteorologico dados = new DadoMeteorologico();
         dados.setData(data);
-        dados.setTemperaturaMinima(20);
-        dados.setTemperaturaMaxima(35);
-        dados.setTurno(Turno.NOITE);
-        dados.setClima(Clima.ENSOLARADO);
-        dados.setPrecipitacao(49);
+        dados.setTemperaturaMinima(response.getTemperaturaMinima());
+        dados.setTemperaturaMaxima(response.getTemperaturaMaxima());
+        dados.setTurno(response.getTurno());
+        dados.setClima(response.getClima());
+        dados.setPrecipitacao(response.getPrecipitacao());
         return dados;
     }
-    public static DadoMeteorologicoResponseDto gerarDadoMeteorologicoResponseDto() {
-        DadoMeteorologicoResponseDto dados = new DadoMeteorologicoResponseDto();
-        dados.setId(1L);
-        dados.setData(hoje);
-        dados.setTemperaturaMinima(20);
-        dados.setTemperaturaMaxima(35);
-        dados.setTurno(Turno.NOITE);
-        dados.setClima(Clima.ENSOLARADO);
-        dados.setPrecipitacao(49);
+    public static DadoMeteorologico gerarDadoMeteorologico() {
+        DadoMeteorologicoResponseDto response = gerarDadoMeteorologicoResponseDto();
+        DadoMeteorologico dados = new DadoMeteorologico();
+        dados.setData(response.getData());
+        dados.setTemperaturaMinima(response.getTemperaturaMinima());
+        dados.setTemperaturaMaxima(response.getTemperaturaMaxima());
+        dados.setTurno(response.getTurno());
+        dados.setClima(response.getClima());
+        dados.setPrecipitacao(response.getPrecipitacao());
         return dados;
     }
 
     public static DadoMeteorologicoRequestDto gerarDadoMeteorologicoRequestDto(){
+        DadoMeteorologicoResponseDto response = gerarDadoMeteorologicoResponseDto();
         DadoMeteorologicoRequestDto dados = new DadoMeteorologicoRequestDto();
+        dados.setData(response.getData());
+        dados.setTemperaturaMinima(response.getTemperaturaMinima());
+        dados.setTemperaturaMaxima(response.getTemperaturaMaxima());
+        dados.setTurno(response.getTurno());
+        dados.setClima(response.getClima());
+        dados.setPrecipitacao(response.getPrecipitacao());
+        return dados;
+    }
+
+    public static DadoMeteorologicoResponseDto gerarDadoMeteorologicoResponseDto() {
+        DadoMeteorologicoResponseDto dados = new DadoMeteorologicoResponseDto();
+        dados.setId(1L);
         dados.setData(hoje);
         dados.setTemperaturaMinima(20);
         dados.setTemperaturaMaxima(35);

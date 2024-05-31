@@ -12,6 +12,7 @@ import com.projeto_final.PrevisaoDoTempo.mapper.MapperCidade;
 import com.projeto_final.PrevisaoDoTempo.mapper.MapperDadosMetearologicos;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CidadeFixture {
@@ -20,7 +21,8 @@ public class CidadeFixture {
         Cidade cidade = new Cidade();
         cidade.setNome(dto.getNome());
         if (dto.getDadosMeteorologicos() != null) {
-            cidade.getDadosMeteorologicos().add(DadoMeteorologicoFixture.gerarDadoMeteorologico());
+            DadoMeteorologico dado = DadoMeteorologicoFixture.gerarDadoMeteorologico();
+            cidade.getDadosMeteorologicos().add(dado);
         }
         return cidade;
     }
@@ -28,6 +30,12 @@ public class CidadeFixture {
     public static Cidade gerarCidade(String nome) {
         CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto(nome);
         return CidadeFixture.gerarCidade(dto);
+    }
+    public static Cidade gerarCidade(String nome, DadoMeteorologico dadoMeteorologico) {
+        Cidade cidade = new Cidade();
+        cidade.setNome(nome);
+        cidade.getDadosMeteorologicos().add(dadoMeteorologico);
+        return cidade;
     }
     public static Cidade gerarCidade(String nome, List<DadoMeteorologico> dados) {
         Cidade cidade = new Cidade();

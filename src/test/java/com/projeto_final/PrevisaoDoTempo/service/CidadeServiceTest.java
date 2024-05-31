@@ -43,7 +43,8 @@ class CidadeServiceTest {
     @DisplayName("Deve cadastrar uma cidade com dados meteorológicos")
     public void deveCadastrarCidadeComDadosMeteorologicos() {
         // arrange
-        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto("Campinas");
+        DadoMeteorologicoRequestDto dados = DadoMeteorologicoFixture.gerarDadoMeteorologicoRequestDto();
+        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto("Campinas",dados);
         Cidade novaCidade = CidadeFixture.gerarCidade(dto);
         when(cidadeRepository.save(any(Cidade.class))).thenReturn(novaCidade);
         when(dadoRepository.save(any(DadoMeteorologico.class))).thenReturn(any(DadoMeteorologico.class));
@@ -106,4 +107,18 @@ class CidadeServiceTest {
         CidadeResponseDto retorno= cidadeService.retornarDadosProximosSeteDias(cidade);
         assertEquals(7,retorno.getDadosMeteorologicos().size());
     }
+
+    @Test
+    @DisplayName("Deve retornar os dados meteorologicos de determinada cidade")
+    public void deveRetornaDadosMeteorologicoPorCidade(){
+        String cidade = "Campinas";
+        DadoMeteorologico dado = DadoMeteorologicoFixture.gerarDadoMeteorologico();
+        Cidade cidadeEntytie = CidadeFixture.gerarCidade(cidade,dado);
+        when(cidadeRepository.findByNome(cidade)).thenReturn(Optional.of(cidadeEntytie)); // mocando o retorno de findByNom
+        CidadeResponseDto retorno= cidadeService.retornaDadosMeteorologicoPorCidade(cidade);
+        verify(cidadeRepository, times(1)).findByNome(cidade);
+        assertEquals(retorno.getNome(),cidade);
+    }
+
+
 }
