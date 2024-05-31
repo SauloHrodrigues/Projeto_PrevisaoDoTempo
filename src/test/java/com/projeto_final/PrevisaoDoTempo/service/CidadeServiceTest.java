@@ -2,10 +2,12 @@ package com.projeto_final.PrevisaoDoTempo.service;
 
 import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeRequestDdo;
 import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeResponseDto;
+import com.projeto_final.PrevisaoDoTempo.core.dto.DadoMeteorologicoRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
 import com.projeto_final.PrevisaoDoTempo.core.entities.DadoMeteorologico;
 import com.projeto_final.PrevisaoDoTempo.fixture.CidadeFixture;
 import com.projeto_final.PrevisaoDoTempo.fixture.CidadeRequestDtoFixture;
+import com.projeto_final.PrevisaoDoTempo.fixture.DadoMeteorologicoFixture;
 import com.projeto_final.PrevisaoDoTempo.mapper.MapperCidade;
 import com.projeto_final.PrevisaoDoTempo.repositories.CidadeRepository;
 import com.projeto_final.PrevisaoDoTempo.repositories.DadoMeteorologicoRepository;
@@ -41,8 +43,8 @@ class CidadeServiceTest {
     @DisplayName("Deve cadastrar uma cidade com dados meteorológicos")
     public void deveCadastrarCidadeComDadosMeteorologicos() {
         // arrange
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDtoComDadosMeteorologico("Campinas");
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto("Campinas");
+        Cidade novaCidade = CidadeFixture.gerarCidade(dto);
         when(cidadeRepository.save(any(Cidade.class))).thenReturn(novaCidade);
         when(dadoRepository.save(any(DadoMeteorologico.class))).thenReturn(any(DadoMeteorologico.class));
 //      act
@@ -56,8 +58,8 @@ class CidadeServiceTest {
     @DisplayName("Deve cadastrar uma cidade sem meteorológicos")
     public void deveCadastrarCidadeSemDadosMeteorologicos() {
         // arrange
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto("Campinas");
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto("Campinas");
+        Cidade novaCidade = CidadeFixture.gerarCidade(dto);
         when(cidadeRepository.save(any(Cidade.class))).thenReturn(novaCidade);
 //      act
         CidadeResponseDto responseDto = cidadeService.cadastrarCidade(dto);
@@ -70,8 +72,8 @@ class CidadeServiceTest {
     public void deveLancarExceptionDeCidadeJaExistente() {
         // arrange
         String cidade = "Valinhos";
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto(cidade);
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto(cidade);
+        Cidade novaCidade = CidadeFixture.gerarCidade(dto);
         when(cidadeRepository.save(any(Cidade.class))).thenThrow(new DataIntegrityViolationException("erro"));
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> {
             cidadeService.cadastrarCidade(dto);
@@ -82,8 +84,8 @@ class CidadeServiceTest {
     @DisplayName("Deve retornar uma lista de cidades")
     public void deveRetornarUmaListaDeCidades() {
         // arrange
-        CidadeRequestDdo dto = CidadeRequestDtoFixture.gerarCidadeRequestDto("Campinas");
-        Cidade novaCidade = CidadeFixture.gerarCidadePorCidadeRequestDto(dto);
+        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto ("Campinas");
+        Cidade novaCidade = CidadeFixture.gerarCidade(dto);
         List<Cidade> cidadeList = new ArrayList<>();
         cidadeList.add(novaCidade);
         cidadeList.add(novaCidade);
@@ -91,5 +93,17 @@ class CidadeServiceTest {
        List<Cidade> resposta = cidadeService.listar();
         assertEquals(resposta.get(0),novaCidade);
         assertTrue(resposta.size() == 2);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma lista de dados de determinada cidades dos próximos sete dias")
+    public void deveRetornarDadosProximosSeteDias() {
+        // arrange
+        String cidade = "Campinas";
+        List<DadoMeteorologico> dados = DadoMeteorologicoFixture.gerarListaDadoMeteorologico(7);
+        Cidade cidadeComListaDeDados = CidadeFixture.gerarCidade(cidade,dados);
+        when(cidadeRepository.findByNome(cidade)).thenReturn(Optional.of(cidadeComListaDeDados)); // mocando o retorno de findByNome
+        CidadeResponseDto retorno= cidadeService.retornarDadosProximosSeteDias(cidade);
+        assertEquals(7,retorno.getDadosMeteorologicos().size());
     }
 }
