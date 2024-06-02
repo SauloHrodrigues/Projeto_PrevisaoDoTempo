@@ -80,7 +80,6 @@ public class CidadeService {
     }
 
     public ResponseEntity deletarCidade(String nomeDaCidade) {
-//        Cidade cidadePesquisada = cidadeRepository.findByNome(nomeDaCidade).orElseThrow(() -> new IllegalArgumentException("Cidade não encontrada"));
         Cidade cidadePesquisada = pesquisarCidade(nomeDaCidade);
         cidadeRepository.deleteById(cidadePesquisada.getId());
         return ResponseEntity.ok().build();

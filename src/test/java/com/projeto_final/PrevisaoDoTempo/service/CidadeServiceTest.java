@@ -18,7 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -126,8 +128,25 @@ class CidadeServiceTest {
         String nomeCidade = "Campinas";
         Cidade cidade = CidadeFixture.gerarCidade(nomeCidade);
         when(cidadeRepository.findByNome(nomeCidade)).thenReturn(Optional.of(cidade));
-        cidadeService.deletarCidade(nomeCidade);
+        ResponseEntity resposta = cidadeService.deletarCidade(nomeCidade);
         verify(cidadeRepository, times(1)).deleteById(cidade.getId());
+        assertTrue(resposta.getStatusCode().is2xxSuccessful());
     }
+
+    @Test
+    @DisplayName("Deve retornar dados meteorologicos de hoje")
+    public void deveRretornarDadosDeHoje(){
+        LocalDate hoje = LocalDate.now();
+        String nomeDaCidade= "São Paulo";
+        List<DadoMeteorologico> dados = DadoMeteorologicoFixture.gerarListaDadoMeteorologico(1);
+        Cidade cidade = CidadeFixture.gerarCidade(nomeDaCidade,dados);
+        when(cidadeRepository.findByNome(nomeDaCidade)).thenReturn(Optional.of(cidade));
+        CidadeResponseDto resposta = cidadeService.retornarDadosDeHoje(nomeDaCidade);
+        assertEquals(nomeDaCidade,resposta.getNome());
+        assertEquals(LocalDate.now(),resposta.getDadosMeteorologicos().get(0).getData());
+    }
+
+
+
 
 }
