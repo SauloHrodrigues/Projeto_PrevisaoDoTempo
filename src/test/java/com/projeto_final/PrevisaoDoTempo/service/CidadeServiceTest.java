@@ -120,5 +120,14 @@ class CidadeServiceTest {
         assertEquals(retorno.getNome(),cidade);
     }
 
+    @Test
+    @DisplayName("Deve deletar cidade Existente")
+    public void deletarCidade(){
+        String nomeCidade = "Campinas";
+        Cidade cidade = CidadeFixture.gerarCidade(nomeCidade);
+        when(cidadeRepository.findByNome(nomeCidade)).thenReturn(Optional.of(cidade));
+        cidadeService.deletarCidade(nomeCidade);
+        verify(cidadeRepository, times(1)).deleteById(cidade.getId());
+    }
 
 }
