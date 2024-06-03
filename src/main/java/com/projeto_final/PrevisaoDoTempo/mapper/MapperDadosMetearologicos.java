@@ -31,16 +31,4 @@ public class MapperDadosMetearologicos {
         return novoDado;
     }
 
-    //    public static DadoMeteorologico dtoToEntity (DadoMeteorologicoRequestDto dados){
-//        DadoMeteorologico novoDado = new DadoMeteorologico();
-//        novoDado.setData(dados.getData());
-//        novoDado.setTemperaturaMinima(dados.getTemperaturaMinima());
-//        novoDado.setTemperaturaMaxima(dados.getTemperaturaMaxima());
-//        novoDado.setTurno(dados.getTurno());
-//        novoDado.setClima(dados.getClima());
-//        novoDado.setPrecipitacao(dados.getPrecipitacao());
-//
-//        return novoDado;
-//
-//    }
 }

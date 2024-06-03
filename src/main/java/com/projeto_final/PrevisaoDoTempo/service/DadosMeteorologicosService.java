@@ -25,10 +25,11 @@ public class DadosMeteorologicosService {
 
     //    cadastrar dados
     public void cadastrarDado(DadoMeteorologicoRequestDto dado) {
-        Cidade cidade = cidadeRepository.findByNome(dado.getNomeDaCidade()).orElseThrow(() -> new NoSuchElementException("Cidade não encontrada após a verificação de existência."));
+        Cidade cidade = cidadeRepository.findByNome(dado.getNomeDaCidade())
+                .orElseThrow(() -> new NoSuchElementException("Cidade não encontrada após a verificação de existência."));
+
         DadoMeteorologico novoDado = MapperDadosMetearologicos.dtoToEntity(dado, cidade);
         dadoRepository.save(novoDado);
-
     }
 
     //    Apagar dados
@@ -37,24 +38,24 @@ public class DadosMeteorologicosService {
         dadoRepository.delete(dadoMeteorologico);
     }
 
-    public void alterarDado(Long id, DadoMeteorologicoResponseDto dto) {
+    public void alterarDado(Long id, DadoMeteorologicoRequestDto dto) {
         DadoMeteorologico dadoMeteorologico = dadoRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Dado não encontrado"));
-        if(dto.getData() !=null){
+        if (dto.getData() != null) {
             dadoMeteorologico.setData(dto.getData());
         }
-        if(dto.getTemperaturaMinima()!=null){
+        if (dto.getTemperaturaMinima() != null) {
             dadoMeteorologico.setTemperaturaMinima(dto.getTemperaturaMinima());
         }
-        if(dto.getTemperaturaMaxima()!=null){
+        if (dto.getTemperaturaMaxima() != null) {
             dadoMeteorologico.setTemperaturaMaxima(dto.getTemperaturaMaxima());
         }
-        if(dto.getTurno()!= null){
+        if (dto.getTurno() != null) {
             dadoMeteorologico.setTurno(dto.getTurno());
         }
-        if(dto.getClima()!= null){
+        if (dto.getClima() != null) {
             dadoMeteorologico.setClima(dto.getClima());
         }
-        if(dto.getPrecipitacao()!=null){
+        if (dto.getPrecipitacao() != null) {
             dadoMeteorologico.setPrecipitacao(dto.getPrecipitacao());
         }
         dadoRepository.save(dadoMeteorologico);
