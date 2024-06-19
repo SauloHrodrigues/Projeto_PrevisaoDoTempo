@@ -1,14 +1,13 @@
 package com.projeto_final.PrevisaoDoTempo.core.dto;
 
-import com.projeto_final.PrevisaoDoTempo.core.entities.DadoMeteorologico;
-import lombok.Data;
+import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CidadeResponseDto {
+public class CityResponseDto {
     @Getter
     @Setter
     private Long id;
@@ -17,6 +16,6 @@ public class CidadeResponseDto {
     private String nome;
     @Getter
     @Setter
-    private List<DadoMeteorologico> dadosMeteorologicos = new ArrayList<>();
+    private List<MeteorologicalData> dadosMeteorologicos = new ArrayList<>();
 
 }

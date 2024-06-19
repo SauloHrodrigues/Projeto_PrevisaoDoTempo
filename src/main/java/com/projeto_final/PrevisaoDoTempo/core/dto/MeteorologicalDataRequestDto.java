@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class DadoMeteorologicoRequestDto {
+public class MeteorologicalDataRequestDto {
 
     @Getter
     @Setter

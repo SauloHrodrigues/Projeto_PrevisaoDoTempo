@@ -1,12 +1,10 @@
 package com.projeto_final.PrevisaoDoTempo.core.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Clima;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Turno;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "dados_meteorologico")
-public class DadoMeteorologico {
+public class MeteorologicalData {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +35,5 @@ public class DadoMeteorologico {
     @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cidade_id")
-    private Cidade cidade;
+    private City cidade;
 }

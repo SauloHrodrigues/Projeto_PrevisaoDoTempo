@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cidades")
-public class Cidade {
+public class City {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +22,6 @@ public class Cidade {
     @Getter
     @Setter
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DadoMeteorologico> dadosMeteorologicos= new ArrayList<>();
+    private List<MeteorologicalData> dadosMeteorologicos= new ArrayList<>();
 
 }

@@ -3,7 +3,7 @@ package com.projeto_final.PrevisaoDoTempo.core.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DadoMeteorologicoResponseDto extends DadoMeteorologicoRequestDto{
+public class MeteorologicalDataResponseDto extends MeteorologicalDataRequestDto {
     @Getter
     @Setter
     private Long id;

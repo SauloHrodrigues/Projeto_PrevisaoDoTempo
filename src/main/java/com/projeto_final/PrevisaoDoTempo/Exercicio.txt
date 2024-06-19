@@ -1,4 +1,4 @@
-OK - Pesquisa de previsão metereolólica a partir do nome da cidade
+OK - Pesquisa de previsão metereolólica a partir do nome da city
 ok - Apresentação da previsão metereológica do dia atual
 ok - Apresentação da previsão metereológica dos próximos 07 dias
 OK - Apresentação de uma lista de previsão metereológica cadastradas - OK!

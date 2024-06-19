@@ -1,15 +1,14 @@
 package com.projeto_final.PrevisaoDoTempo.repositories;
 
-import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
+import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CidadeRepository extends JpaRepository<Cidade, Long> {
+public interface CityRepository extends JpaRepository<City, Long> {
     boolean existsByNome(String nome);
-    Optional<Cidade> findByNome(String nome);
+    Optional<City> findByNome(String nome);
 
 }

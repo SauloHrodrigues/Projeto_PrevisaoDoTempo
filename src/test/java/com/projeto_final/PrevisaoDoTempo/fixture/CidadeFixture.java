@@ -1,65 +1,58 @@
 package com.projeto_final.PrevisaoDoTempo.fixture;
 
-import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeRequestDdo;
-import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeResponseDto;
-import com.projeto_final.PrevisaoDoTempo.core.dto.DadoMeteorologicoRequestDto;
-import com.projeto_final.PrevisaoDoTempo.core.dto.DadoMeteorologicoResponseDto;
-import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
-import com.projeto_final.PrevisaoDoTempo.core.entities.DadoMeteorologico;
-import com.projeto_final.PrevisaoDoTempo.core.enuns.Clima;
-import com.projeto_final.PrevisaoDoTempo.core.enuns.Turno;
-import com.projeto_final.PrevisaoDoTempo.mapper.MapperCidade;
-import com.projeto_final.PrevisaoDoTempo.mapper.MapperDadosMetearologicos;
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityRequestDdo;
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
+import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
+import com.projeto_final.PrevisaoDoTempo.core.entities.City;
+import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CidadeFixture {
 
-    public static Cidade gerarCidade(CidadeRequestDdo dto) {
-        Cidade cidade = new Cidade();
-        cidade.setNome(dto.getNome());
+    public static City gerarCidade(CityRequestDdo dto) {
+        City city = new City();
+        city.setNome(dto.getNome());
         if (dto.getDadosMeteorologicos() != null) {
-            DadoMeteorologico dado = DadoMeteorologicoFixture.gerarDadoMeteorologico();
-            cidade.getDadosMeteorologicos().add(dado);
+            MeteorologicalData dado = DadoMeteorologicoFixture.gerarDadoMeteorologico();
+            city.getDadosMeteorologicos().add(dado);
         }
-        return cidade;
+        return city;
     }
 
-    public static Cidade gerarCidade(String nome) {
-        CidadeRequestDdo dto = CidadeFixture.gerarCidadeRequestDto(nome);
+    public static City gerarCidade(String nome) {
+        CityRequestDdo dto = CidadeFixture.gerarCidadeRequestDto(nome);
         return CidadeFixture.gerarCidade(dto);
     }
-    public static Cidade gerarCidade(String nome, DadoMeteorologico dadoMeteorologico) {
-        Cidade cidade = new Cidade();
-        cidade.setNome(nome);
-        cidade.getDadosMeteorologicos().add(dadoMeteorologico);
-        return cidade;
+    public static City gerarCidade(String nome, MeteorologicalData meteorologicalData) {
+        City city = new City();
+        city.setNome(nome);
+        city.getDadosMeteorologicos().add(meteorologicalData);
+        return city;
     }
-    public static Cidade gerarCidade(String nome, List<DadoMeteorologico> dados) {
-        Cidade cidade = new Cidade();
-        cidade.setNome(nome);
-        cidade.setDadosMeteorologicos(dados);
-        return cidade;
+    public static City gerarCidade(String nome, List<MeteorologicalData> dados) {
+        City city = new City();
+        city.setNome(nome);
+        city.setDadosMeteorologicos(dados);
+        return city;
     }
 
-    public static CidadeResponseDto cidadeResponseDto(Cidade cidade) {
-        CidadeResponseDto responseDto = new CidadeResponseDto();
+    public static CityResponseDto cidadeResponseDto(City city) {
+        CityResponseDto responseDto = new CityResponseDto();
         responseDto.setId(1l);
-        responseDto.setNome(cidade.getNome());
-        if (!cidade.getDadosMeteorologicos().isEmpty()) {
-            responseDto.setDadosMeteorologicos(cidade.getDadosMeteorologicos());
+        responseDto.setNome(city.getNome());
+        if (!city.getDadosMeteorologicos().isEmpty()) {
+            responseDto.setDadosMeteorologicos(city.getDadosMeteorologicos());
         }
         return responseDto;
     }
-    public static CidadeRequestDdo gerarCidadeRequestDto(String nomeDaCidade) {
-        CidadeRequestDdo cidadeDto = new CidadeRequestDdo();
+    public static CityRequestDdo gerarCidadeRequestDto(String nomeDaCidade) {
+        CityRequestDdo cidadeDto = new CityRequestDdo();
         cidadeDto.setNome(nomeDaCidade);
         return cidadeDto;
     }
-    public static CidadeRequestDdo gerarCidadeRequestDto(String nomeDaCidade, DadoMeteorologicoRequestDto dados) {
-        CidadeRequestDdo cidadeDto = new CidadeRequestDdo();
+    public static CityRequestDdo gerarCidadeRequestDto(String nomeDaCidade, MeteorologicalDataRequestDto dados) {
+        CityRequestDdo cidadeDto = new CityRequestDdo();
         cidadeDto.setNome(nomeDaCidade);
        cidadeDto.setDadosMeteorologicos(dados);
         return cidadeDto;

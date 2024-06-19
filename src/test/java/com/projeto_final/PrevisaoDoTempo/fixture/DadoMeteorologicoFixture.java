@@ -1,9 +1,9 @@
 package com.projeto_final.PrevisaoDoTempo.fixture;
 
-import com.projeto_final.PrevisaoDoTempo.core.dto.DadoMeteorologicoRequestDto;
-import com.projeto_final.PrevisaoDoTempo.core.dto.DadoMeteorologicoResponseDto;
-import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
-import com.projeto_final.PrevisaoDoTempo.core.entities.DadoMeteorologico;
+import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
+import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataResponseDto;
+import com.projeto_final.PrevisaoDoTempo.core.entities.City;
+import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Clima;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Turno;
 
@@ -13,9 +13,9 @@ import java.util.List;
 
 public class DadoMeteorologicoFixture {
     static LocalDate hoje = LocalDate.now();
-    public static List<DadoMeteorologico> gerarListaDadoMeteorologico(int quantidade){
+    public static List<MeteorologicalData> gerarListaDadoMeteorologico(int quantidade){
         LocalDate data = hoje.minusDays(quantidade);
-        List<DadoMeteorologico> dados = new ArrayList<>();
+        List<MeteorologicalData> dados = new ArrayList<>();
         for(int i=0;i<=quantidade*2;i++){
             dados.add(gerarDadoMeteorologico(data));
             data = data.plusDays(1);
@@ -23,9 +23,9 @@ public class DadoMeteorologicoFixture {
         return dados;
     }
 
-    public static DadoMeteorologico gerarDadoMeteorologico(LocalDate data) {
-        DadoMeteorologicoResponseDto response = gerarDadoMeteorologicoResponseDto();
-        DadoMeteorologico dados = new DadoMeteorologico();
+    public static MeteorologicalData gerarDadoMeteorologico(LocalDate data) {
+        MeteorologicalDataResponseDto response = gerarDadoMeteorologicoResponseDto();
+        MeteorologicalData dados = new MeteorologicalData();
         dados.setData(data);
         dados.setTemperaturaMinima(response.getTemperaturaMinima());
         dados.setTemperaturaMaxima(response.getTemperaturaMaxima());
@@ -34,9 +34,9 @@ public class DadoMeteorologicoFixture {
         dados.setPrecipitacao(response.getPrecipitacao());
         return dados;
     }
-    public static DadoMeteorologico gerarDadoMeteorologico() {
-        DadoMeteorologicoResponseDto response = gerarDadoMeteorologicoResponseDto();
-        DadoMeteorologico dados = new DadoMeteorologico();
+    public static MeteorologicalData gerarDadoMeteorologico() {
+        MeteorologicalDataResponseDto response = gerarDadoMeteorologicoResponseDto();
+        MeteorologicalData dados = new MeteorologicalData();
         dados.setData(response.getData());
         dados.setTemperaturaMinima(response.getTemperaturaMinima());
         dados.setTemperaturaMaxima(response.getTemperaturaMaxima());
@@ -45,33 +45,33 @@ public class DadoMeteorologicoFixture {
         dados.setPrecipitacao(response.getPrecipitacao());
         return dados;
     }
-    public static DadoMeteorologico gerarDadoMeteorologico(DadoMeteorologicoRequestDto requestDto, Cidade cidade) {
-        DadoMeteorologico dados = new DadoMeteorologico();
+    public static MeteorologicalData gerarDadoMeteorologico(MeteorologicalDataRequestDto requestDto, City city) {
+        MeteorologicalData dados = new MeteorologicalData();
         dados.setData(requestDto.getData());
         dados.setTemperaturaMinima(requestDto.getTemperaturaMinima());
         dados.setTemperaturaMaxima(requestDto.getTemperaturaMaxima());
         dados.setTurno(requestDto.getTurno());
         dados.setClima(requestDto.getClima());
         dados.setPrecipitacao(requestDto.getPrecipitacao());
-        dados.setCidade(cidade);
+        dados.setCity(city);
         return dados;
     }
 
 
-    public static DadoMeteorologicoResponseDto gerarDadoMeteorologicoResponseDto() {
-        DadoMeteorologicoRequestDto requestDto = DadoMeteorologicoFixture.gerarDadoMeteorologicoRequestDto();
-        DadoMeteorologicoResponseDto dados = new DadoMeteorologicoResponseDto();
+    public static MeteorologicalDataResponseDto gerarDadoMeteorologicoResponseDto() {
+        MeteorologicalDataRequestDto requestDto = DadoMeteorologicoFixture.gerarDadoMeteorologicoRequestDto();
+        MeteorologicalDataResponseDto dados = new MeteorologicalDataResponseDto();
         dados.setId(1L);
         return dados;
     }
 
-    public static DadoMeteorologicoRequestDto gerarDadoMeteorologicoRequestDto(String cidade){
-        DadoMeteorologicoRequestDto dados = gerarDadoMeteorologicoRequestDto();
+    public static MeteorologicalDataRequestDto gerarDadoMeteorologicoRequestDto(String cidade){
+        MeteorologicalDataRequestDto dados = gerarDadoMeteorologicoRequestDto();
         dados.setNomeDaCidade(cidade);
         return dados;
     }
-    public static DadoMeteorologicoRequestDto gerarDadoMeteorologicoRequestDto() {
-        DadoMeteorologicoRequestDto dados = new DadoMeteorologicoRequestDto();
+    public static MeteorologicalDataRequestDto gerarDadoMeteorologicoRequestDto() {
+        MeteorologicalDataRequestDto dados = new MeteorologicalDataRequestDto();
         dados.setNomeDaCidade("São Paulo");
         dados.setData(hoje);
         dados.setTemperaturaMinima(20);
