@@ -24,29 +24,34 @@ public class CityController {
     }
 
     @GetMapping("/")
-    public List<City> listRegisteredCity(){
-        return cityService.registeredCityList();
+    public ResponseEntity<List<City>> listRegisteredCity(){
+        List<City> cityList = cityService.registeredCityList();
+        return ResponseEntity.status(HttpStatus.OK).body(cityList);
     }
 
     @GetMapping("/{cidade}/proximos_sete_dias")
-    CityResponseDto listWeatherDataForTheNextSevenDays(@PathVariable("cidade") String city){
-        return cityService.returnsWeathersDataForTheNextSevenDays(city);
+    public ResponseEntity<CityResponseDto> listWeatherDataForTheNextSevenDays(@PathVariable("cidade") String city){
+        CityResponseDto cityResponseDto= cityService.returnsWeathersDataForTheNextSevenDays(city);
+        return ResponseEntity.status(HttpStatus.OK).body(cityResponseDto);
     }
 
 
     @GetMapping("/{cidade}/hoje")
-    CityResponseDto ListarDadosMeteorologicosDeHojePorCidade(@PathVariable("cidade") String city){
-        return cityService.returnsTodayWeathersData(city);
+    public ResponseEntity<CityResponseDto> ListarDadosMeteorologicosDeHojePorCidade(@PathVariable("cidade") String city){
+        CityResponseDto cityResponseDto= cityService.returnsTodayWeathersData(city);
+        return ResponseEntity.status(HttpStatus.OK).body(cityResponseDto);
     }
 
 
     @GetMapping("/{cidade}")
-    public CityResponseDto pesquisarCidade(@PathVariable("cidade") String nameOfTheCity){
-        return cityService.returnsWeathersDataByCity(nameOfTheCity);
+    public ResponseEntity<CityResponseDto> searchCity(@PathVariable("cidade") String nameOfTheCity){
+        CityResponseDto cityResponseDto= cityService.returnsWeathersDataByCity(nameOfTheCity);
+        return ResponseEntity.status(HttpStatus.OK).body(cityResponseDto);
     }
 
     @DeleteMapping("/{cidade}")
-    public ResponseEntity deletarCidade(@PathVariable("cidade") String nameOfTheCity){
-        return cityService.deletarCity(nameOfTheCity);
+    public ResponseEntity deletarCity(@PathVariable("cidade") String nameOfTheCity){
+        cityService.deletarCity(nameOfTheCity);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

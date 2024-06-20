@@ -71,10 +71,9 @@ public class CityService {
         return MapperCidade.entityToResponseDto(cityPesquisada);
     }
 
-    public ResponseEntity deletarCity(String nameOfTheCity) {
+    public void deletarCity(String nameOfTheCity) {
         City citySearched = searchCity(nameOfTheCity);
         cityRepository.deleteById(citySearched.getId());
-        return ResponseEntity.ok().build();
     }
 
     public CityResponseDto returnsTodayWeathersData(String nameOfTheCity) {

@@ -1,5 +1,6 @@
 package com.projeto_final.PrevisaoDoTempo.service;
 
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
@@ -20,12 +21,17 @@ public class MeteorologicalDataService {
     @Autowired
     private final MeteorologicalDataRepository meteorologicalDataRepository;
     
-    public void registerNewMeteorologicalData(MeteorologicalDataRequestDto dataRequestDto) {
+    public CityResponseDto registerNewMeteorologicalData(MeteorologicalDataRequestDto dataRequestDto) {
         City city = cityRepository.findByNome(dataRequestDto.getNomeDaCidade())
                 .orElseThrow(() -> new NoSuchElementException("City não encontrada após a verificação de existência."));
 
         MeteorologicalData newMeteorologicalData = MapperDadosMetearologicos.dtoToEntity(dataRequestDto, city);
         meteorologicalDataRepository.save(newMeteorologicalData);
+        CityResponseDto cityResponseDto = new CityResponseDto();
+        cityResponseDto.setId(city.getId());
+        cityResponseDto.setNome(city.getNome());
+        cityResponseDto.getDadosMeteorologicos().add(newMeteorologicalData);
+        return cityResponseDto;
     }
 
     public void deletarMeteorologicalDataById(Long id) {

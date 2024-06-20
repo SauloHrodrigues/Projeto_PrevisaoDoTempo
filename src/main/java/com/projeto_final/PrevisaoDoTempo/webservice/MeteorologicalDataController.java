@@ -1,9 +1,11 @@
 package com.projeto_final.PrevisaoDoTempo.webservice;
 
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataResponseDto;
 import com.projeto_final.PrevisaoDoTempo.service.MeteorologicalDataService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +18,20 @@ public class MeteorologicalDataController {
 
 //    cadastrar dados
     @PostMapping("/")
-    void registerNewMeteorologicalData(@RequestBody MeteorologicalDataRequestDto newData){
-        service.registerNewMeteorologicalData(newData);
+    public ResponseEntity<CityResponseDto> registerNewMeteorologicalData(@RequestBody MeteorologicalDataRequestDto newData){
+        CityResponseDto city = service.registerNewMeteorologicalData(newData);
+        return ResponseEntity.status(HttpStatus.OK).body(city);
     }
 //    Apagar dados
     @DeleteMapping("/{id}")
-    void deletarMeteorologicalDataByID(@PathVariable("id") Long id){
+    public ResponseEntity deletarMeteorologicalDataByID(@PathVariable("id") Long id){
         service.deletarMeteorologicalDataById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<MeteorologicalDataResponseDto> chageMeteorologicalDataById(@PathVariable("id") Long id, @RequestBody MeteorologicalDataResponseDto dto){
+    public ResponseEntity<MeteorologicalDataResponseDto> chageMeteorologicalDataById(@PathVariable("id") Long id, @RequestBody MeteorologicalDataResponseDto dto){
         service.chageMeteorologicalData(id,dto);
-
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
