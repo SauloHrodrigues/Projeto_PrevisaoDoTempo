@@ -16,17 +16,16 @@ public class MeteorologicalDataController {
 
    private final MeteorologicalDataService service;
 
-//    cadastrar dados
     @PostMapping("/")
     public ResponseEntity<CityResponseDto> registerNewMeteorologicalData(@RequestBody MeteorologicalDataRequestDto newData){
         CityResponseDto city = service.registerNewMeteorologicalData(newData);
         return ResponseEntity.status(HttpStatus.OK).body(city);
     }
-//    Apagar dados
+
     @DeleteMapping("/{id}")
     public ResponseEntity deletarMeteorologicalDataByID(@PathVariable("id") Long id){
         service.deletarMeteorologicalDataById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")

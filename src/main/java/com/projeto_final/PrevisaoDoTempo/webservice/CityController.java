@@ -52,6 +52,6 @@ public class CityController {
     @DeleteMapping("/{cidade}")
     public ResponseEntity deletarCity(@PathVariable("cidade") String nameOfTheCity){
         cityService.deletarCity(nameOfTheCity);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
