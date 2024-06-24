@@ -6,16 +6,11 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class CityResponseDto {
-    @Getter
-    @Setter
     private Long id;
-    @Getter
-    @Setter
     private String nome;
-    @Getter
-    @Setter
     private List<MeteorologicalData> dadosMeteorologicos = new ArrayList<>();
 
 }

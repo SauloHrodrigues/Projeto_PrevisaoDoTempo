@@ -1,14 +1,15 @@
 package com.projeto_final.PrevisaoDoTempo.core.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class CityRequestDdo {
-    @Getter
-    @Setter
+    @NotBlank
     private String nome;
-    @Getter
-    @Setter
     private MeteorologicalDataRequestDto dadosMeteorologicos;
 }
