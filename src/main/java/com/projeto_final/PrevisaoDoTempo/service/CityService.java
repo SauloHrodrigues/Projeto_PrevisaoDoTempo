@@ -5,6 +5,8 @@ import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
+import com.projeto_final.PrevisaoDoTempo.exception.CityNotFind;
+import com.projeto_final.PrevisaoDoTempo.exception.FindCityException;
 import com.projeto_final.PrevisaoDoTempo.mapper.MapperCidade;
 import com.projeto_final.PrevisaoDoTempo.repositories.CityRepository;
 import com.projeto_final.PrevisaoDoTempo.repositories.MeteorologicalDataRepository;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,21 +27,21 @@ public class CityService {
     private final MeteorologicalDataRepository dataRepository;
 
     public CityResponseDto registerNewCity(CityRequestDdo cityRequestDdo) {
-            City newCity = MapperCidade.dtoToEntity(cityRequestDdo);
-            newCity.setNome(cityRequestDdo.getNome());
+        Optional<City> city = cityRepository.findByNome(cityRequestDdo.getNome());
+        if (city.isPresent()) {
+            throw new FindCityException("Cidade já existente!");
+        }
+        City newCity = MapperCidade.dtoToEntity(cityRequestDdo);
+        newCity.setNome(cityRequestDdo.getNome());
 
-            if (cityRequestDdo.getDadosMeteorologicos() != null) {
-                MeteorologicalData newWeatherData = createNewWeatherData(cityRequestDdo.getDadosMeteorologicos());
-                newWeatherData.setCidade(newCity);
-                newCity.getDadosMeteorologicos().add(newWeatherData);
-            }
+        if (cityRequestDdo.getDadosMeteorologicos() != null) {
+            MeteorologicalData newWeatherData = createNewWeatherData(cityRequestDdo.getDadosMeteorologicos());
+            newWeatherData.setCidade(newCity);
+            newCity.getDadosMeteorologicos().add(newWeatherData);
+        }
+        cityRepository.save(newCity);
 
-           try {
-               cityRepository.save(newCity);
-           }catch (Exception e){
-               throw new IllegalArgumentException("City já cadastrada.");
-           }
-           return MapperCidade.entityToResponseDto(newCity);
+        return MapperCidade.entityToResponseDto(newCity);
     }
 
     public List<City> registeredCityList() {
@@ -47,7 +50,7 @@ public class CityService {
     }
 
     public CityResponseDto returnsWeathersDataForTheNextSevenDays(String nomeDaCidade) {
-        City cityBuscada = searchCity(nomeDaCidade);
+        City cityBuscada = searchCity(nomeDaCidade).get();
         List<MeteorologicalData> allCityWeatherData = cityBuscada.getDadosMeteorologicos();
         List<MeteorologicalData> selectCityWeatherData = new ArrayList<>();
         LocalDate data = LocalDate.now();
@@ -67,12 +70,12 @@ public class CityService {
     }
 
     public CityResponseDto returnsWeathersDataByCity(String nameOfTheCity) {
-        City cityPesquisada = searchCity(nameOfTheCity);
+        City cityPesquisada = searchCity(nameOfTheCity).get();
         return MapperCidade.entityToResponseDto(cityPesquisada);
     }
 
     public void deletarCity(String nameOfTheCity) {
-        City citySearched = searchCity(nameOfTheCity);
+        City citySearched = searchCity(nameOfTheCity).get();
         cityRepository.deleteById(citySearched.getId());
     }
 
@@ -94,8 +97,13 @@ public class CityService {
         return response;
     }
 
-    private City searchCity(String nameOfTheCity){
-        return cityRepository.findByNome(nameOfTheCity).orElseThrow(() -> new NoSuchElementException("City não encontrada"));
+    private Optional<City> searchCity(String nameOfTheCity) {
+        Optional<City> city = cityRepository.findByNome(nameOfTheCity);
+        if (city.isPresent()) {
+            return city;
+        } else {
+            throw new CityNotFind("Cidade não encontrada!");
+        }
     }
 
     private MeteorologicalData createNewWeatherData(MeteorologicalDataRequestDto data) {

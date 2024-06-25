@@ -4,6 +4,8 @@ import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
+import com.projeto_final.PrevisaoDoTempo.exception.CityNotFind;
+import com.projeto_final.PrevisaoDoTempo.exception.MeteorologicalDataNotFind;
 import com.projeto_final.PrevisaoDoTempo.mapper.MapperDadosMetearologicos;
 import com.projeto_final.PrevisaoDoTempo.repositories.CityRepository;
 import com.projeto_final.PrevisaoDoTempo.repositories.MeteorologicalDataRepository;
@@ -12,18 +14,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class MeteorologicalDataService {
-    @Autowired
+
     private final CityRepository cityRepository;
-    @Autowired
+
     private final MeteorologicalDataRepository meteorologicalDataRepository;
     
     public CityResponseDto registerNewMeteorologicalData(MeteorologicalDataRequestDto dataRequestDto) {
         City city = cityRepository.findByNome(dataRequestDto.getNomeDaCidade())
-                .orElseThrow(() -> new NoSuchElementException("City não encontrada após a verificação de existência."));
+                .orElseThrow(() -> new CityNotFind("City não encontrada."));
 
         MeteorologicalData newMeteorologicalData = MapperDadosMetearologicos.dtoToEntity(dataRequestDto, city);
         meteorologicalDataRepository.save(newMeteorologicalData);
@@ -35,30 +38,29 @@ public class MeteorologicalDataService {
     }
 
     public void deletarMeteorologicalDataById(Long id) {
-        MeteorologicalData meteorologicalData = meteorologicalDataRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Dado não encontrado"));
+        MeteorologicalData meteorologicalData = searchMeteorologicalData(id);
         meteorologicalDataRepository.delete(meteorologicalData);
     }
 
     public void chageMeteorologicalData(Long id, MeteorologicalDataRequestDto dataRequestDto) {
-        MeteorologicalData meteorologicalData = meteorologicalDataRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Dado não encontrado"));
-        if (dataRequestDto.getData() != null) {
+        MeteorologicalData meteorologicalData = searchMeteorologicalData(id);
             meteorologicalData.setData(dataRequestDto.getData());
-        }
-        if (dataRequestDto.getTemperaturaMinima() != null) {
             meteorologicalData.setTemperaturaMinima(dataRequestDto.getTemperaturaMinima());
-        }
-        if (dataRequestDto.getTemperaturaMaxima() != null) {
             meteorologicalData.setTemperaturaMaxima(dataRequestDto.getTemperaturaMaxima());
-        }
-        if (dataRequestDto.getTurno() != null) {
             meteorologicalData.setTurno(dataRequestDto.getTurno());
-        }
-        if (dataRequestDto.getClima() != null) {
             meteorologicalData.setClima(dataRequestDto.getClima());
-        }
-        if (dataRequestDto.getPrecipitacao() != null) {
+
             meteorologicalData.setPrecipitacao(dataRequestDto.getPrecipitacao());
-        }
+
         meteorologicalDataRepository.save(meteorologicalData);
+    }
+
+    private MeteorologicalData searchMeteorologicalData(Long id) {
+        Optional<MeteorologicalData> meteorologicalData = meteorologicalDataRepository.findById(id);
+        if (meteorologicalData.isPresent()) {
+            return meteorologicalData.get();
+        }else {
+            throw new CityNotFind("Dado meteorologico não encontrado");
+        }
     }
 }

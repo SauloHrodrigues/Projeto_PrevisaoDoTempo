@@ -4,9 +4,11 @@ import com.projeto_final.PrevisaoDoTempo.core.dto.CityRequestDdo;
 import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import com.projeto_final.PrevisaoDoTempo.service.CityService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/previsao/clima/cidade")
 public class CityController {
-
     private final CityService cityService;
 
     @PostMapping("/")
-    public ResponseEntity<CityResponseDto> registerNewCity(@RequestBody CityRequestDdo cityRequestDdo ){
+    public ResponseEntity<CityResponseDto> registerNewCity(@RequestBody @Valid CityRequestDdo cityRequestDdo ){
         CityResponseDto responseDto = cityService.registerNewCity(cityRequestDdo);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
@@ -35,13 +36,11 @@ public class CityController {
         return ResponseEntity.status(HttpStatus.OK).body(cityResponseDto);
     }
 
-
     @GetMapping("/{cidade}/hoje")
     public ResponseEntity<CityResponseDto> ListarDadosMeteorologicosDeHojePorCidade(@PathVariable("cidade") String city){
         CityResponseDto cityResponseDto= cityService.returnsTodayWeathersData(city);
         return ResponseEntity.status(HttpStatus.OK).body(cityResponseDto);
     }
-
 
     @GetMapping("/{cidade}")
     public ResponseEntity<CityResponseDto> searchCity(@PathVariable("cidade") String nameOfTheCity){

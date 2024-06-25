@@ -4,6 +4,7 @@ import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataResponseDto;
 import com.projeto_final.PrevisaoDoTempo.service.MeteorologicalDataService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class MeteorologicalDataController {
    private final MeteorologicalDataService service;
 
     @PostMapping("/")
-    public ResponseEntity<CityResponseDto> registerNewMeteorologicalData(@RequestBody MeteorologicalDataRequestDto newData){
+    public ResponseEntity<CityResponseDto> registerNewMeteorologicalData(@RequestBody @Valid MeteorologicalDataRequestDto newData){
         CityResponseDto city = service.registerNewMeteorologicalData(newData);
         return ResponseEntity.status(HttpStatus.OK).body(city);
     }
@@ -29,7 +30,7 @@ public class MeteorologicalDataController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MeteorologicalDataResponseDto> chageMeteorologicalDataById(@PathVariable("id") Long id, @RequestBody MeteorologicalDataResponseDto dto){
+    public ResponseEntity<MeteorologicalDataResponseDto> chageMeteorologicalDataById(@PathVariable("id") Long id, @RequestBody @Valid MeteorologicalDataRequestDto dto){
         service.chageMeteorologicalData(id,dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

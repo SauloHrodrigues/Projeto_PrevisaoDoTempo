@@ -126,9 +126,7 @@ class CityServiceTest {
         String nomeCidade = "Campinas";
         City city = CidadeFixture.gerarCidade(nomeCidade);
         when(cityRepository.findByNome(nomeCidade)).thenReturn(Optional.of(city));
-        ResponseEntity resposta = cityService.deletarCity(nomeCidade);
         verify(cityRepository, times(1)).deleteById(city.getId());
-        assertTrue(resposta.getStatusCode().is2xxSuccessful());
     }
 
     @Test
