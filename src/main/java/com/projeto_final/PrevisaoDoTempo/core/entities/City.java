@@ -16,6 +16,7 @@ public class City {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
     private Long id;
     @Column(unique = true)
     @Getter

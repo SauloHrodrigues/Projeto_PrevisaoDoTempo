@@ -50,7 +50,7 @@ public class CityService {
     }
 
     public CityResponseDto returnsWeathersDataForTheNextSevenDays(String nomeDaCidade) {
-        City cityBuscada = searchCity(nomeDaCidade).get();
+        City cityBuscada = searchCity(nomeDaCidade);
         List<MeteorologicalData> allCityWeatherData = cityBuscada.getDadosMeteorologicos();
         List<MeteorologicalData> selectCityWeatherData = new ArrayList<>();
         LocalDate data = LocalDate.now();
@@ -70,12 +70,12 @@ public class CityService {
     }
 
     public CityResponseDto returnsWeathersDataByCity(String nameOfTheCity) {
-        City cityPesquisada = searchCity(nameOfTheCity).get();
+        City cityPesquisada = searchCity(nameOfTheCity);
         return MapperCidade.entityToResponseDto(cityPesquisada);
     }
 
     public void deletarCity(String nameOfTheCity) {
-        City citySearched = searchCity(nameOfTheCity).get();
+        City citySearched = searchCity(nameOfTheCity);
         cityRepository.deleteById(citySearched.getId());
     }
 
@@ -97,13 +97,9 @@ public class CityService {
         return response;
     }
 
-    private Optional<City> searchCity(String nameOfTheCity) {
-        Optional<City> city = cityRepository.findByNome(nameOfTheCity);
-        if (city.isPresent()) {
-            return city;
-        } else {
-            throw new CityNotFind("Cidade não encontrada!");
-        }
+    private City searchCity(String nameOfTheCity) {
+        return cityRepository.findByNome(nameOfTheCity).orElseThrow(()->
+                new CityNotFind("Cidade não encontrada!"));
     }
 
     private MeteorologicalData createNewWeatherData(MeteorologicalDataRequestDto data) {

@@ -13,6 +13,7 @@ public class CidadeFixture {
     public static City gerarCidade(CityRequestDdo dto) {
         City city = new City();
         city.setNome(dto.getNome());
+        city.setId(1L);
         if (dto.getDadosMeteorologicos() != null) {
             MeteorologicalData dado = DadoMeteorologicoFixture.gerarDadoMeteorologico();
             city.getDadosMeteorologicos().add(dado);

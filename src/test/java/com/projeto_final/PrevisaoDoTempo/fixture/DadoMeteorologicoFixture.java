@@ -53,7 +53,7 @@ public class DadoMeteorologicoFixture {
         dados.setTurno(requestDto.getTurno());
         dados.setClima(requestDto.getClima());
         dados.setPrecipitacao(requestDto.getPrecipitacao());
-        dados.setCity(city);
+        dados.setCidade(city);
         return dados;
     }
 

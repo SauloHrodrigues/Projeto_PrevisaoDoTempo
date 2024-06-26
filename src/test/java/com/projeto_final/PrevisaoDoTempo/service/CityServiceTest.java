@@ -5,6 +5,7 @@ import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
 import com.projeto_final.PrevisaoDoTempo.core.dto.MeteorologicalDataRequestDto;
 import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 import com.projeto_final.PrevisaoDoTempo.core.entities.MeteorologicalData;
+import com.projeto_final.PrevisaoDoTempo.exception.FindCityException;
 import com.projeto_final.PrevisaoDoTempo.fixture.CidadeFixture;
 import com.projeto_final.PrevisaoDoTempo.fixture.DadoMeteorologicoFixture;
 import com.projeto_final.PrevisaoDoTempo.repositories.CityRepository;
@@ -75,11 +76,11 @@ class CityServiceTest {
         String cidade = "Valinhos";
         CityRequestDdo dto = CidadeFixture.gerarCidadeRequestDto(cidade);
         City novaCity = CidadeFixture.gerarCidade(dto);
-        when(cityRepository.save(any(City.class))).thenThrow(new DataIntegrityViolationException("erro"));
-        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> {
+        when(cityRepository.save(any(City.class))).thenThrow(new FindCityException("Cidade já existente!"));
+        FindCityException exception = assertThrows(FindCityException.class, () -> {
             cityService.registerNewCity(dto);
         });
-        assertEquals("City já cadastrada.",illegalArgumentException.getMessage());
+        assertEquals("Cidade já existente!",exception.getMessage());
     }
     @Test
     @DisplayName("Deve retornar uma lista de cidades")
@@ -126,7 +127,9 @@ class CityServiceTest {
         String nomeCidade = "Campinas";
         City city = CidadeFixture.gerarCidade(nomeCidade);
         when(cityRepository.findByNome(nomeCidade)).thenReturn(Optional.of(city));
-        verify(cityRepository, times(1)).deleteById(city.getId());
+        doNothing().when(cityRepository).deleteById(city.getId());
+        cityService.deletarCity(nomeCidade);
+        verify(cityRepository).deleteById(city.getId());
     }
 
     @Test
