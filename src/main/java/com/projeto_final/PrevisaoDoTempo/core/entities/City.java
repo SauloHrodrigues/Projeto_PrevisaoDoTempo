@@ -1,7 +1,9 @@
 package com.projeto_final.PrevisaoDoTempo.core.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "cidades")
-public class Cidade {
+public class City {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter
     private Long id;
     @Column(unique = true)
     @Getter
@@ -22,6 +25,6 @@ public class Cidade {
     @Getter
     @Setter
     @OneToMany(mappedBy = "cidade", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DadoMeteorologico> dadosMeteorologicos= new ArrayList<>();
+    private List<MeteorologicalData> dadosMeteorologicos= new ArrayList<>();
 
 }

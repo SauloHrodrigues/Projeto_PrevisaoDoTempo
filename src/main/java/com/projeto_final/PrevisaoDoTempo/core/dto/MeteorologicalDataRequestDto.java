@@ -2,6 +2,8 @@ package com.projeto_final.PrevisaoDoTempo.core.dto;
 
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Clima;
 import com.projeto_final.PrevisaoDoTempo.core.enuns.Turno;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,28 +13,28 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class DadoMeteorologicoRequestDto {
+@Getter
+@Setter
+public class MeteorologicalDataRequestDto {
 
-    @Getter
-    @Setter
+
     private String nomeDaCidade;
-    @Getter
-    @Setter
+
+    @NotNull
     private LocalDate data;
-    @Getter
-    @Setter
+
+    @NotNull
     private Integer temperaturaMinima;
-    @Getter
-    @Setter
+
+    @NotNull(message = "Temperatura máxima é campo obrigatório")
     private Integer temperaturaMaxima;
-    @Getter
-    @Setter
+
+    @NotNull
     private Turno turno;
-    @Getter
-    @Setter
+
+    @NotNull(message = "O clima não pode ser nulo")
     private Clima clima;
-    @Getter
-    @Setter
+    @NotNull
     private Integer precipitacao;
 
 }

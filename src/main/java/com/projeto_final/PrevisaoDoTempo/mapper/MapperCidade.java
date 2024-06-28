@@ -1,22 +1,22 @@
 package com.projeto_final.PrevisaoDoTempo.mapper;
 
-import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeRequestDdo;
-import com.projeto_final.PrevisaoDoTempo.core.dto.CidadeResponseDto;
-import com.projeto_final.PrevisaoDoTempo.core.entities.Cidade;
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityRequestDdo;
+import com.projeto_final.PrevisaoDoTempo.core.dto.CityResponseDto;
+import com.projeto_final.PrevisaoDoTempo.core.entities.City;
 
 public class MapperCidade {
 
-    public static Cidade dtoToEntity(CidadeRequestDdo dados){
-        Cidade novaCidade = new Cidade();
-        novaCidade.setNome(dados.getNome());
-        return novaCidade;
+    public static City dtoToEntity(CityRequestDdo cityRequestDdo){
+        City novaCity = new City();
+        novaCity.setNome(cityRequestDdo.getNome());
+        return novaCity;
     }
 
-    public static CidadeResponseDto entityToResponseDto(Cidade cidade) {
-        CidadeResponseDto responseDto = new CidadeResponseDto();
-        responseDto.setId(cidade.getId());
-        responseDto.setNome(cidade.getNome());
-        responseDto.setDadosMeteorologicos(cidade.getDadosMeteorologicos());
+    public static CityResponseDto entityToResponseDto(City city) {
+        CityResponseDto responseDto = new CityResponseDto();
+        responseDto.setId(city.getId());
+        responseDto.setNome(city.getNome());
+        responseDto.setDadosMeteorologicos(city.getDadosMeteorologicos());
         return responseDto;
     }
 }
